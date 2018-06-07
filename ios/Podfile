@@ -1,0 +1,61 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'ParkTender' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for ParkTender
+  rn_path = '../node_modules/react-native'
+  rn_maps_path = '../node_modules/react-native-maps'
+
+  pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec"
+  pod 'React', path: rn_path, subspecs: [
+    'Core',
+    'RCTActionSheet',
+    'RCTAnimation',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTLinkingIOS',
+    'RCTNetwork',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket'
+  ]
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      if target.name == 'react-native-google-maps'
+        target.build_configurations.each do |config|
+          config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+        end
+      end
+      if target.name == "React"
+        target.remove_from_project
+      end
+    end
+  end
+
+
+  target 'ParkTenderTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'ParkTender-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for ParkTender-tvOS
+
+  target 'ParkTender-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
